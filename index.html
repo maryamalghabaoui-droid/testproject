@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Startup Template</title>
+
+  <!-- Police -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- Icônes -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root{
+      --bg:#fff;
+      --text:#111;
+      --muted:#666;
+      --primary:#000;
+      --accent:#f44336;
+      --light:#f5f5f5;
+      --border:#e5e5e5;
+      --green:#4CAF50;
+      --blue:#2196F3;
+      --orange:#ff9800;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      color:var(--text);
+      background:var(--bg);
+      line-height:1.6;
+    }
+
+    /* Layout utilitaires */
+    .container{max-width:1200px;margin:0 auto;padding:0 16px}
+    .section{padding:64px 0}
+    .center{text-align:center}
+    .muted{color:var(--muted)}
+    .btn{
+      display:inline-block;
+      padding:12px 24px;
+      border:none;
+      background:var(--primary);
+      color:#fff;
+      text-decoration:none;
+      font-weight:600;
+      letter-spacing:.5px;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+    .btn:hover{opacity:.85}
+    .btn.outline{
+      background:transparent;
+      color:var(--text);
+      border:1px solid var(--text);
+    }
+    .grid{
+      display:grid;
+      gap:24px;
+    }
+    .grid-2{grid-template-columns:repeat(2,1fr)}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .grid-4{grid-template-columns:repeat(4,1fr)}
+    @media (max-width:992px){
+      .grid-4{grid-template-columns:repeat(2,1fr)}
+      .grid-3{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:640px){
+      .grid-4,.grid-3,.grid-2{grid-template-columns:1fr}
+    }
+
+    /* Navbar */
+    .navbar{
+      position:fixed;top:0;left:0;right:0;
+      background:#fff;
+      border-bottom:1px solid var(--border);
+      z-index:1000;
+    }
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;height:56px}
+    .nav-brand{font-weight:700;letter-spacing:1px}
+    .nav-links{display:flex;gap:24px}
+    .nav-links a{
+      color:var(--text);text-decoration:none;font-weight:600;font-size:14px;letter-spacing:.5px;
+      padding:8px 0;border-bottom:2px solid transparent;
+    }
+    .nav-links a:hover{border-color:var(--text)}
+    .nav-toggle{display:none;background:none;border:none;font-size:22px}
+    @media (max-width:820px){
+      .nav-links{display:none;position:absolute;top:56px;left:0;right:0;background:#fff;border-bottom:1px solid var(--border);flex-direction:column;padding:12px}
+      .nav-links.show{display:flex}
+      .nav-toggle{display:block}
+    }
+
+    /* Hero */
+    .hero{
+      margin-top:56px;
+      background:#f0f0f0 url('images/mac.jpg') center/cover no-repeat;
+      color:#fff;
+    }
+    .hero-overlay{
+      background:rgba(0,0,0,.55);
+      padding:96px 0;
+    }
+    .hero h1{
+      font-size:42px;margin:0 0 16px;font-weight:700;
+    }
+    .hero p{font-size:16px;margin:0 0 24px}
+    .hero .btn{background:#fff;color:#000}
+    .hero .btn:hover{background:#eaeaea}
+
+    /* About features */
+    .features .card{
+      background:#fff;border:1px solid var(--border);padding:24px;text-align:center;
+    }
+    .features .icon{
+      font-size:36px;margin-bottom:12px;color:#000;
+    }
+    .features h4{margin:8px 0 8px}
+    .features p{color:var(--muted);font-size:14px}
+
+    /* Design section */
+    .design{
+      background:var(--light);
+    }
+    .design .image{
+      width:100%;height:100%;min-height:280px;border:1px solid var(--border);
+      background:url('https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+    }
+    .design .content h3{margin-top:0}
+    .design .content p{color:var(--muted)}
+
+    /* Team */
+    .team .member{
+      background:#fff;border:1px solid var(--border);
+    }
+    .team .photo{
+      width:100%;height:220px;background:#ddd;object-fit:cover;display:block;
+    }
+    .team .info{padding:16px}
+    .team .info h4{margin:0 0 6px}
+    .team .info p{margin:0 0 12px;color:var(--muted)}
+    .team .btn{width:100%}
+
+    /* Stats */
+    .stats{
+      background:#000;color:#fff;
+    }
+    .stats .item{text-align:center}
+    .stats .item h3{margin:0;font-size:28px}
+    .stats .item span{color:#ccc;font-size:14px}
+
+    /* Work grid */
+    .work .thumb{
+      width:100%;aspect-ratio:1/1;object-fit:cover;border:1px solid var(--border);display:block;
+    }
+
+    /* Skills */
+    .skills .bar{
+      background:#eee;border:1px solid var(--border);height:36px;margin:8px 0 16px;
+    }
+    .skills .bar .fill{
+      height:100%;background:#000;color:#fff;display:flex;align-items:center;justify-content:flex-end;padding-right:12px;font-weight:600;
+    }
+    .skills .label{font-weight:600;margin-top:8px}
+
+    /* Pricing */
+    .pricing .plan{
+      border:1px solid var(--border);background:#fff;display:flex;flex-direction:column;align-items:center;text-align:center;
+    }
+    .pricing .plan .header{
+      background:#000;color:#fff;width:100%;padding:24px 16px;font-weight:700;font-size:18px;
+    }
+    .pricing .plan .price{
+      padding:24px 16px;border-bottom:1px solid var(--border);width:100%;
+    }
+    .pricing .plan .price h3{margin:0 0 8px}
+    .pricing .plan ul{list-style:none;margin:0;padding:0;width:100%}
+    .pricing .plan li{
+      border-bottom:1px solid var(--border);padding:12px 16px;font-size:14px;
+    }
+    .pricing .plan .cta{padding:24px}
+    .pricing .plan .btn{background:#000;color:#fff;width:100%}
+    .pricing .plan.featured .header{background:#f44336}
+
+    /* Contact */
+    .contact .info{
+      display:flex;flex-direction:column;gap:8px;margin-bottom:16px;color:var(--muted);
+    }
+    .contact form .column{display:grid;grid-template-columns:1fr 1fr;gap:16px var}
+    .contact form input,.contact form textarea{
+      width:100%;padding:12px;border:1px solid var(--border);font-family:inherit;font-size:14px;
+    }
+    .contact form textarea{min-height:140px;resize:vertical}
+    @media (max-width:640px){
+      .contact form .row{grid-template-columns:1fr}
+    }
+
+    /* Footer */
+    footer{
+      background:#000;color:#fff;text-align:center;padding:32px 16px;
+    }
+    footer .social{display:flex;gap:12px;justify-content:center;margin-bottom:12px}
+    footer .social a{color:#fff;font-size:18px;text-decoration:none}
+    footer small{color:#bbb}
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <div class="nav-brand">COMPANY</div>
+      <nav class="nav-links" id="navLinks">
+        <a href="#about">ABOUT</a>
+        <a href="#team">TEAM</a>
+        <a href="#work">WORK</a>
+        <a href="#pricing">PRICING</a>
+        <a href="#contact">CONTACT</a>
+      </nav>
+      <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navLinks').classList.toggle('show')">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-overlay">
+      <div class="container center">
+        <h1>Start something that matters</h1>
+        <p>Stop wasting valuable time with projects that just aren't you.</p>
+        <a class="btn" href="#about">Learn more and start today</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section">
+    <div class="container center">
+      <h2>ABOUT THE COMPANY</h2>
+      <p class="muted">Key features of our company</p>
+      <div class="grid grid-4 features" style="margin-top:32px">
+        <div class="card">
+          <div class="icon"><i class="fa-solid fa-desktop"></i></div>
+          <h4>Responsive</h4>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><i class="fa-solid fa-heart"></i></div>
+          <h4>Passion</h4>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><i class="fa-solid fa-gem"></i></div>
+          <h4>Design</h4>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><i class="fa-solid fa-wrench"></i></div>
+          <h4>Support</h4>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Design -->
+  <section class="section design">
+    <div class="container">
+      <div class="grid grid-2">
+        <div class="image" aria-label="Design preview"></div>
+        <div class="content">
+          <h3>We know design</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+          <a class="btn outline" href="#work">View our works</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section id="team" class="section team">
+    <div class="container center">
+      <h2>THE TEAM</h2>
+      <p class="muted">The ones who runs this company</p>
+      <div class="grid grid-4" style="margin-top:32px">
+        <div class="member">
+          <img class="photo" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop" alt="John Doe">
+          <div class="info">
+            <h4>John Doe</h4>
+            <p>CEO & Founder</p>
+            <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+            <button class="btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+          </div>
+        </div>
+        <div class="member">
+          <img class="photo" src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?q=80&w=800&auto=format&fit=crop" alt="Anja Doe">
+          <div class="info">
+            <h4>Anja Doe</h4>
+            <p>Art Director</p>
+            <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+            <button class="btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+          </div>
+        </div>
+        <div class="member">
+          <img class="photo" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop" alt="Mike Ross">
+          <div class="info">
+            <h4>Mike Ross</h4>
+            <p>Web Designer</p>
+            <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+            <button class="btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+          </div>
+        </div>
+        <div class="member">
+          <img class="photo" src="images/phone_buildings.jpg" alt="Dan Star">
+          <div class="info">
+            <h4>Dan Star</h4>
+            <p>Designer</p>
+            <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+            <button class="btn"><i class="fa-solid fa-envelope"></i> Contact</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="section stats">
+    <div class="container grid grid-4">
+      <div class="item">
+        <h3>14+</h3>
+        <span>Partners</span>
+      </div>
+      <div class="item">
+        <h3>55+</h3>
+        <span>Projects Done</span>
+      </div>
+      <div class="item">
+        <h3>89+</h3>
+        <span>Happy Clients</span>
+      </div>
+      <div class="item">
+        <h3>150+</h3>
+        <span>Meetings</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work -->
+  <section id="work" class="section work">
+    <div class="container center">
+      <h2>OUR WORK</h2>
+      <p class="muted">What we've done for people</p>
+      <div class="grid grid-4" style="margin-top:24px">
+        <img class="thumb" src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop" alt="Work 1">
+        <img class="thumb" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800&auto=format&fit=crop" alt="Work 2">
+        <img class="thumb" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop" alt="Work 3">
+        <img class="thumb" src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=800&auto=format&fit=crop" alt="Work 4">
+        <img class="thumb" src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=800&auto=format&fit=crop" alt="Work 5">
+        <img class="thumb" src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=800&auto=format&fit=crop" alt="Work 6">
+        <img class="thumb" src="Image/developer.jpg" alt="Work 7">
+        <img class="thumb" src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop" alt="Work 8">
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section class="section skills">
+    <div class="container">
+      <h2 class="center">Our Skills</h2>
+      <p class="center muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <div style="max-width:800px;margin:24px auto 0">
+        <div class="label">Photography</div>
+        <div class="bar"><div class="fill" style="width:90%">90%</div></div>
+
+        <div class="label">Web Design</div>
+        <div class="bar"><div class="fill" style="width:85%">85%</div></div>
+
+        <div class="label">Photoshop</div>
+        <div class="bar"><div class="fill" style="width:75%">75%</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="section pricing">
+    <div class="container center">
+      <h2>PRICING</h2>
+      <p class="muted">Choose a pricing plan that fits your needs</p>
+      <div class="grid grid-3" style="margin-top:24px">
+        <div class="plan">
+          <div class="header">Basic</div>
+          <ul>
+            <li>10GB Storage</li>
+            <li>10 Emails</li>
+            <li>10 Domains</li>
+            <li>Endless Support</li>
+          </ul>
+          <div class="price">
+            <h3>$10</h3>
+            <span>per month</span>
+          </div>
+          <div class="cta">
+            <button class="btn">Sign Up</button>
+          </div>
+        </div>
+        <div class="plan featured">
+          <div class="header">Pro</div>
+          <ul>
+            <li>25GB Storage</li>
+            <li>25 Emails</li>
+            <li>25 Domains</li>
+            <li>Endless Support</li>
+          </ul>
+          <div class="price">
+            <h3>$25</h3>
+            <span>per month</span>
+          </div>
+          <div class="cta">
+            <button class="btn">Sign Up</button>
+          </div>
+        </div>
+        <div class="plan">
+          <div class="header">Premium</div>
+          <ul>
+            <li>50GB Storage</li>
+            <li>50 Emails</li>
+            <li>50 Domains</li>
+            <li>Endless Support</li>
+          </ul>
+          <div class="price">
+            <h3>$50</h3>
+            <span>per month</span>
+          </div>
+          <div class="cta">
+            <button class="btn">Sign Up</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section contact">
+    <div class="container">
+      <h2 class="center">CONTACT</h2>
+      <p class="center muted">Lets get in touch. Send us a message:</p>
+
+      <div class="grid grid-2" style="margin-top:24px">
+        <div>
+          <div class="info">
+            <div><i class="fa-solid fa-location-dot"></i> Address:  Maroc</div>
+            <div><i class="fa-solid fa-phone"></i> Phone: +212 0600000000</div>
+            <div><i class="fa-solid fa-envelope"></i> Email: contact@example.com</div>
+          </div>
+        <form>
+          <div class="row">
+            <input type="text" placeholder="Name" required>
+            <input type="email" placeholder="Email"style="margin-top:12px;" required>
+          </div>
+          <input type="text" placeholder="Subject" style="margin-top:12px" required>
+          <textarea placeholder="Message" style="margin-top:12px" required></textarea>
+          <button class="btn" type="submit" style="margin-top:12px"><i class="fa-solid fa-paper-plane"></i> SEND MESSAGE</button>
+        </form>
+      </div>
+    </div>
+</section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="social">
+      <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+      <a href="#"><i class="fa-brands fa-instagram"></i></a>
+      <a href="#"><i class="fa-brands fa-snapchat"></i></a>
+      <a href="#"><i class="fa-brands fa-pinterest-p"></i></a>
+      <a href="#"><i class="fa-brands fa-twitter"></i></a>
+      <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+    </div>
+    <small>Powered by w3.css</small>
+  </footer>
+
+  <script>
+    // Fermer le menu mobile au clic sur un lien
+    document.querySelectorAll('.nav-links a').forEach(a=>{
+      a.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('show'));
+    });
+  </script>
+</body>
+</html>
